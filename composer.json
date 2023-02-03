@@ -1,0 +1,22 @@
+{
+  "name": "marlemiesz/wp-sdk",
+  "description": "The WP API SDK for PHP is a client library that makes it easy to interact with the WordPress REST API from a PHP application. This SDK provides an easy-to-use interface for sending HTTP requests and handling the responses, and also includes convenient methods for accessing common API endpoints and data structures. With this SDK, developers can easily retrieve, create, update, and delete content and metadata within a WordPress site, and also perform other common tasks such as managing users and media. The WP API SDK for PHP is an essential tool for any PHP developer working with the WordPress platform, and provides a powerful and flexible way to build custom applications and integrations that interact with WordPress.",
+  "keywords": [
+    "wp",
+    "php",
+    "WordPress",
+    "SDK"
+  ],
+  "authors": [{
+    "name": "Marcin Lemiesz",
+    "email": "mar.lemiesz@gmail.com"
+  }],
+  "require": {
+    "php": "^8.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "Marlemiesz\\WpSDK\\": "src/"
+    }
+  }
+}
