@@ -2,7 +2,9 @@
 
 namespace Marlemiesz\WpSDK\HttpClients;
 
+use GuzzleHttp\Exception\GuzzleException;
 use Marlemiesz\WpSDK\Requests\WpRequestInterface;
+use Marlemiesz\WpSDK\Responses\ResponseInterface;
 use Marlemiesz\WpSDK\Utils;
 
 
@@ -23,13 +25,19 @@ readonly class Client
         ]);
     }
     
-    public function call(WpRequestInterface $wpRequest): array
+    /**
+     * @param WpRequestInterface $wpRequest
+     * @return array
+     * @throws GuzzleException
+     * @throws \Exception
+     */
+    public function call(WpRequestInterface $wpRequest): ResponseInterface
     {
         $response = $this->httpConnection->request($wpRequest->getMethod(), $wpRequest->getEndpoint(), [
             'json' => $wpRequest->getPayload()?->toPrimitive()
         ]);
-        
-        return json_decode($response->getBody()->getContents(), true);
+        $this->validResponse($response);
+        return $wpRequest->prepareResponse(json_decode($response->getBody()->getContents(), true));
     }
     
     /**
@@ -62,5 +70,17 @@ readonly class Client
     protected function getAuthorization(): string
     {
         return sprintf("Basic %s", Utils::base64Encode($this->wp_user, ':', $this->wp_password));
+    }
+    
+    /**
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @return void
+     * @throws \Exception
+     */
+    protected function validResponse(\Psr\Http\Message\ResponseInterface $response): void
+    {
+        if ($response->getStatusCode() !== 200) {
+            throw new \Exception($response->getBody()->getContents(), $response->getStatusCode());
+        }
     }
 }

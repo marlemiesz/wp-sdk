@@ -30,6 +30,21 @@ final class WordpressTest extends TestCase
     
     public function testGetPosts()
     {
-        var_dump($this->wp_sdk->getPosts());exit;
+        $item = $this->wp_sdk->getPosts()?->getFirstItem();
+        
+        $this->assertIsInt($item->getId());
+        $this->assertIsString($item->getTitle());
+        $this->assertIsString($item->getContent());
+        $this->assertIsString($item->getExcerpt());
+        $this->assertIsString($item->getSlug());
+        $this->assertIsString($item->getLink());
+    
+        $this->assertNotEmpty($item->getId());
+        $this->assertNotEmpty($item->getTitle());
+        $this->assertNotEmpty($item->getContent());
+        $this->assertNotEmpty($item->getExcerpt());
+        $this->assertNotEmpty($item->getSlug());
+        $this->assertNotEmpty($item->getLink());
+        
     }
 }

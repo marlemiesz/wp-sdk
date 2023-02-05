@@ -1,6 +1,7 @@
 <?php
 namespace Marlemiesz\WpSDK;
 use Marlemiesz\WpSDK\HttpClients\Client;
+use Marlemiesz\WpSDK\Responses\Posts;
 
 class Wordpress
 {
@@ -11,7 +12,7 @@ class Wordpress
         $this->client = new Client($wp_url, $wp_user, $wp_password);
     }
     
-    public function getPosts(): array
+    public function getPosts(): Posts
     {
         return $this->client->call(new Requests\GetPosts());
     }
