@@ -1,6 +1,6 @@
 <?php
 
-namespace Marlemiesz\WpSDK\Entities;
+namespace Marlemiesz\WpSDK\HttpClients;
 
 use Marlemiesz\WpSDK\Utils;
 

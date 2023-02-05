@@ -1,6 +1,6 @@
 <?php
 namespace Marlemiesz\WpSDK;
-use Marlemiesz\WpSDK\Entities\Client;
+use Marlemiesz\WpSDK\HttpClients\Client;
 
 class Wordpress
 {
