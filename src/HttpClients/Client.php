@@ -2,14 +2,15 @@
 
 namespace Marlemiesz\WpSDK\HttpClients;
 
+use Marlemiesz\WpSDK\Requests\WpRequestInterface;
 use Marlemiesz\WpSDK\Utils;
 
-/**
- * @property \GuzzleHttp\Client $httpConnection
- */
+
 readonly class Client
 {
-   
+    
+    
+    private \GuzzleHttp\Client $httpConnection;
     
     public function __construct(private string $wp_url, private string $wp_user, private string $wp_password)
     {
@@ -17,15 +18,15 @@ readonly class Client
             'base_uri' => $this->wp_url,
             'headers'  => [
                 'Content-Type' => 'application/json',
-                'Authorization'     => Utils::base64Encode($this->wp_user, $this->wp_password),
+                'Authorization'     => $this->getAuthorization(),
             ]
         ]);
     }
     
-    public function call(string $method, string $endpoint, array $data = []): array
+    public function call(WpRequestInterface $wpRequest): array
     {
-        $response = $this->httpConnection->request($method, $endpoint, [
-            'json' => $data
+        $response = $this->httpConnection->request($wpRequest->getMethod(), $wpRequest->getEndpoint(), [
+            'json' => $wpRequest->getPayload()?->toPrimitive()
         ]);
         
         return json_decode($response->getBody()->getContents(), true);
@@ -53,5 +54,13 @@ readonly class Client
     public function getWpPassword(): string
     {
         return $this->wp_password;
+    }
+    
+    /**
+     * @return string
+     */
+    protected function getAuthorization(): string
+    {
+        return sprintf("Basic %s", Utils::base64Encode($this->wp_user, ':', $this->wp_password));
     }
 }
