@@ -1,6 +1,7 @@
 <?php
 namespace Marlemiesz\WpSDK;
 use Marlemiesz\WpSDK\HttpClients\Client;
+use Marlemiesz\WpSDK\Responses\Categories;
 use Marlemiesz\WpSDK\Responses\Posts;
 
 class Wordpress
@@ -15,5 +16,10 @@ class Wordpress
     public function getPosts(): Posts
     {
         return $this->client->call(new Requests\GetPosts());
+    }
+    
+    public function getCategories(): Categories
+    {
+        return $this->client->call(new Requests\GetCategories());
     }
 }

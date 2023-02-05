@@ -47,4 +47,20 @@ final class WordpressTest extends TestCase
         $this->assertNotEmpty($item->getLink());
         
     }
+    
+    public function testGetCategories()
+    {
+        $item = $this->wp_sdk->getCategories()?->getFirstItem();
+        
+        $this->assertIsInt($item->getId());
+        $this->assertIsString($item->getName());
+        $this->assertIsString($item->getSlug());
+        $this->assertIsString($item->getLink());
+    
+        $this->assertNotEmpty($item->getId());
+        $this->assertNotEmpty($item->getName());
+        $this->assertNotEmpty($item->getSlug());
+        $this->assertNotEmpty($item->getLink());
+        
+    }
 }

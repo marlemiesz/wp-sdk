@@ -2,7 +2,7 @@
 
 namespace Marlemiesz\WpSDK\Responses;
 
-class Posts extends Response
+class Categories extends Response
 {
     
     /**
@@ -11,8 +11,8 @@ class Posts extends Response
     public function validate(): bool
     {
         foreach($this->items as $item) {
-            if(!$item instanceof \Marlemiesz\WpSDK\Entities\Post) {
-                throw new \Exception('All posts must be instance of Marlemiesz\WpSDK\Entities\Post');
+            if(!$item instanceof \Marlemiesz\WpSDK\Entities\Category) {
+                throw new \Exception('All posts must be instance of Marlemiesz\WpSDK\Entities\Category');
             }
         }
         return true;
