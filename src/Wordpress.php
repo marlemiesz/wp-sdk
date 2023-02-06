@@ -38,6 +38,17 @@ class Wordpress
         array    $categories,
     ): Posts
     {
-        return $this->client->call(new Requests\PostPosts($title, $content, $status, $categories ));
+        return $this->client->call(new Requests\AddPosts($title, $content, $status, $categories ));
+    }
+    
+    public function updatePost(
+        int $id,
+        string $title,
+        string $content,
+        string    $status,
+        array    $categories,
+    ): Posts
+    {
+        return $this->client->call(new Requests\UpdatePosts($id, $title, $content, $status, $categories ));
     }
 }

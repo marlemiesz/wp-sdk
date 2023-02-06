@@ -6,7 +6,7 @@ use Marlemiesz\WpSDK\Entities\Post;
 use Marlemiesz\WpSDK\Requests\Payloads\PostPayload;
 use Marlemiesz\WpSDK\Responses\Posts;
 
-class PostPosts implements WpRequestInterface
+class AddPosts implements WpRequestInterface
 {
     const METHOD = 'POST';
     

@@ -10,6 +10,16 @@ use PHPUnit\Framework\TestCase;
 final class WordpressTest extends TestCase
 {
     const envFile = __DIR__ . '/../.env.test';
+    
+    const title = 'Test title';
+    const content = 'Test content';
+    const status = \Marlemiesz\WpSDK\Enum\PostStatuses::PUBLISH;
+    
+    const updateTitle = 'Test title updated';
+    const updateContent = 'Test content updated';
+    const updateStatus = \Marlemiesz\WpSDK\Enum\PostStatuses::DRAFT;
+    
+    
     private function validateEnv(): void
     {
         if(!file_exists(self::envFile)) {
@@ -66,26 +76,65 @@ final class WordpressTest extends TestCase
     
     public function testAddPost()
     {
-        $item = $this->wp_sdk->addPost(
-            'Test title',
-            'Test content',
-            \Marlemiesz\WpSDK\Enum\PostStatuses::PUBLISH,
+        $item = $this->addPost();
+    
+        $this->validPostStructure($item);
+        
+        $this->assertEquals(self::title, $item->getTitle());
+        $this->assertEquals(self::status, $item->getStatus());
+        
+        
+        
+        
+    }
+    
+    public function testUpdatePost()
+    {
+        $item = $this->addPost();
+        $item = $this->updatePost($item);
+        
+        $this->validPostStructure($item);
+        
+        $this->assertEquals(self::updateTitle, $item->getTitle());
+        $this->assertEquals(self::updateStatus, $item->getStatus());
+        
+    }
+    
+    private function addPost(): \Marlemiesz\WpSDK\Entities\Post
+    {
+        return $this->wp_sdk->addPost(
+            self::title,
+            self::content,
+            self::status,
             [1],
         )?->getFirstItem();
-        
-        $this->assertIsInt($item->getId());
-        $this->assertIsString($item->getTitle());
-        $this->assertIsString($item->getContent());
-        $this->assertIsString($item->getExcerpt());
-        $this->assertIsString($item->getSlug());
-        $this->assertIsString($item->getLink());
+    }
     
-        $this->assertNotEmpty($item->getId());
-        $this->assertNotEmpty($item->getTitle());
-        $this->assertNotEmpty($item->getContent());
-        $this->assertNotEmpty($item->getExcerpt());
-        $this->assertNotEmpty($item->getSlug());
-        $this->assertNotEmpty($item->getLink());
+    private function updatePost(\Marlemiesz\WpSDK\Entities\Post $post): \Marlemiesz\WpSDK\Entities\Post
+    {
+        return $this->wp_sdk->updatePost(
+            $post->getId(),
+            self::updateTitle,
+            self::updateContent,
+            self::updateStatus,
+            [1],
+        )?->getFirstItem();
+    }
+    
+    private function validPostStructure(\Marlemiesz\WpSDK\Entities\Post $post): void
+    {
+        $this->assertIsInt($post->getId());
+        $this->assertIsString($post->getTitle());
+        $this->assertIsString($post->getContent());
+        $this->assertIsString($post->getExcerpt());
+        $this->assertIsString($post->getSlug());
+        $this->assertIsString($post->getLink());
         
+        $this->assertNotEmpty($post->getId());
+        $this->assertNotEmpty($post->getTitle());
+        $this->assertNotEmpty($post->getContent());
+        $this->assertNotEmpty($post->getExcerpt());
+        $this->assertNotEmpty($post->getSlug());
+        $this->assertNotEmpty($post->getLink());
     }
 }
