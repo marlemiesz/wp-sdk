@@ -82,9 +82,9 @@ final class WordpressTest extends TestCase
         
         $this->assertEquals(self::title, $item->getTitle());
         $this->assertEquals(self::status, $item->getStatus());
-        
-        
-        
+    
+    
+        $this->deletePost($item);
         
     }
     
@@ -97,7 +97,21 @@ final class WordpressTest extends TestCase
         
         $this->assertEquals(self::updateTitle, $item->getTitle());
         $this->assertEquals(self::updateStatus, $item->getStatus());
+        $this->deletePost($item);
         
+    }
+    
+    public function testDeletePost()
+    {
+        $item = $this->addPost();
+        $item = $this->deletePost($item);
+        $this->assertNull($item);
+        
+    }
+    
+    private function deletePost(\Marlemiesz\WpSDK\Entities\Post $post): void
+    {
+        $this->wp_sdk->deletePost($post->getId());
     }
     
     private function addPost(): \Marlemiesz\WpSDK\Entities\Post
