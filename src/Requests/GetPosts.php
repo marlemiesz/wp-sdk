@@ -20,7 +20,7 @@ class GetPosts implements WpRequestInterface
         return self::ENDPOINT;
     }
     
-    public function getPayload(): PayloadInterface|null
+    public function getPayload(): null
     {
         return null;
     }

@@ -2,6 +2,7 @@
 
 namespace Marlemiesz\WpSDK\Requests;
 
+use Marlemiesz\WpSDK\Requests\Payloads\PayloadInterface;
 use Marlemiesz\WpSDK\Responses\ResponseInterface;
 
 interface WpRequestInterface

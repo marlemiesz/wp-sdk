@@ -63,4 +63,29 @@ final class WordpressTest extends TestCase
         $this->assertNotEmpty($item->getLink());
         
     }
+    
+    public function testAddPost()
+    {
+        $item = $this->wp_sdk->addPost(
+            'Test title',
+            'Test content',
+            \Marlemiesz\WpSDK\Enum\PostStatuses::PUBLISH,
+            [1],
+        )?->getFirstItem();
+        
+        $this->assertIsInt($item->getId());
+        $this->assertIsString($item->getTitle());
+        $this->assertIsString($item->getContent());
+        $this->assertIsString($item->getExcerpt());
+        $this->assertIsString($item->getSlug());
+        $this->assertIsString($item->getLink());
+    
+        $this->assertNotEmpty($item->getId());
+        $this->assertNotEmpty($item->getTitle());
+        $this->assertNotEmpty($item->getContent());
+        $this->assertNotEmpty($item->getExcerpt());
+        $this->assertNotEmpty($item->getSlug());
+        $this->assertNotEmpty($item->getLink());
+        
+    }
 }

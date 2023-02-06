@@ -14,6 +14,8 @@ readonly class Client
     
     private \GuzzleHttp\Client $httpConnection;
     
+    const HTTP_SUCCESS = [200, 201, 202, 203, 204, 205, 206, 207, 208, 226];
+    
     public function __construct(private string $wp_url, private string $wp_user, private string $wp_password)
     {
         $this->httpConnection = new \GuzzleHttp\Client([
@@ -79,7 +81,7 @@ readonly class Client
      */
     protected function validResponse(\Psr\Http\Message\ResponseInterface $response): void
     {
-        if ($response->getStatusCode() !== 200) {
+        if (in_array($response->getStatusCode(), self::HTTP_SUCCESS) === false) {
             throw new \Exception($response->getBody()->getContents(), $response->getStatusCode());
         }
     }
